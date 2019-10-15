@@ -9,5 +9,10 @@ fun triple(n: Int) = n * 3
 
 fun <T, U, V> compose(f: (U) -> V, g: (T) -> U): (T) -> V = { f(g(it)) }
 
-val add: (Int) -> (Int) -> Int = TODO("add (in curried form)")
+val add: (Int) -> (Int) -> Int = { outer ->
+    val ret: (Int) -> Int = { inner ->
+        outer + inner
+    }
+    ret
+}
 
