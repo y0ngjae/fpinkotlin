@@ -9,8 +9,8 @@ fun triple(n: Int) = n * 3
 
 fun <T, U, V> compose(f: (U) -> V, g: (T) -> U): (T) -> V = { f(g(it)) }
 
-val add: (Int) -> (Int) -> Int = { outer ->
-    val ret: (Int) -> Int = { inner ->
+val add: (Int) -> (Int) -> Int = { outer: Int ->
+    val ret: (Int) -> Int = { inner: Int ->
         outer + inner
     }
     ret

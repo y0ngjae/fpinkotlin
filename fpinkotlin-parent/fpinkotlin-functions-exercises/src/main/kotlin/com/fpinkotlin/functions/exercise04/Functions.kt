@@ -14,10 +14,10 @@ val add: (Int) -> (Int) -> Int = { a -> { b -> a + b} }
 typealias IntFuncType = (Int) -> Int
 
 // 굳이 길게 풀어 써보자면
-val compose: (IntFuncType) -> (IntFuncType) -> IntFuncType = { outer ->
-    val outerRet: (IntFuncType) -> IntFuncType = { inner ->
-        val innerRet: IntFuncType = { intValue ->
-            outer.invoke(inner.invoke(intValue))
+val compose: (IntFuncType) -> (IntFuncType) -> IntFuncType = { outerArg: IntFuncType ->
+    val outerRet: (IntFuncType) -> IntFuncType = { innerArg: IntFuncType ->
+        val innerRet: IntFuncType = { intArg: Int ->
+            outerArg.invoke(innerArg.invoke(intArg))
         }
         innerRet
     }
