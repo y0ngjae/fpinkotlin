@@ -20,7 +20,18 @@ sealed class List<out A> {
 
     fun dropWhile(p: (A) -> Boolean): List<A> = dropWhile(this, p)
 
-    fun reverse(): List<A> = TODO("reverse")
+    fun reverse(): List<A> {
+        return when (this) {
+            is Cons<A> -> {
+               foldLeft(Nil as List<A>) { acc: List<A> ->
+                   { a: A ->
+                        acc.cons(a)
+                   }
+               }
+            }
+            Nil -> this
+        }
+    }
 
     fun <B> foldRight(identity: B, f: (A) -> (B) -> B): B = foldRight(this, identity, f)
 

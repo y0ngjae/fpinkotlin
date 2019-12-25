@@ -1,5 +1,7 @@
 package com.fpinkotlin.lists.exercise14
 
+import com.fpinkotlin.lists.exercise14.List.Companion.cons
+
 
 sealed class List<out A> {
 
@@ -74,7 +76,13 @@ sealed class List<out A> {
 
         fun <A> concat(list1: List<A>, list2: List<A>): List<A> = list1.reverse().foldLeft(list2) { x -> x::cons }
 
-        fun <A> concatViaFoldRight(list1: List<A>, list2: List<A>): List<A> = TODO("concatViaFoldRight")
+        fun <A> concatViaFoldRight(list1: List<A>, list2: List<A>): List<A> {
+            return list1.foldRight(list2, { a: A ->
+                { b: List<A> ->
+                    b.cons(a)
+                }
+            })
+        }
 
         fun <A, B> foldRight(list: List<A>, identity: B, f: (A) -> (B) -> B): B =
                 when (list) {

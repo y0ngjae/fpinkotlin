@@ -31,7 +31,13 @@ sealed class List<out A> {
     fun <B> foldRightViaFoldLeft(identity: B, f: (A) -> (B) -> B): B =
             this.reverse().foldLeft(identity) { x -> { y -> f(y)(x) } }
 
-    fun <B> coFoldRight(identity: B, f: (A) -> (B) -> B): B = TODO("coFoldRight")
+    fun <B> coFoldRight(identity: B, f: (A) -> (B) -> B): B {
+        return coFoldRight(identity, this.reverse(), identity) { a: A ->
+            { b: B ->
+                f(a)(b)
+            }
+        }
+    }
 
     internal object Nil: List<Nothing>() {
 

@@ -39,7 +39,15 @@ sealed class List<out A> {
 
     fun <B> flatMap(f: (A) -> List<B>): List<B> = flatten(map(f))
 
-    fun filter(p: (A) -> Boolean): List<A> = TODO("filter")
+    fun filter(p: (A) -> Boolean): List<A> {
+        return flatMap {
+            if (p(it)) {
+                List(it)
+            } else {
+                Nil
+            }
+        }
+    }
 
     internal object Nil: List<Nothing>() {
 

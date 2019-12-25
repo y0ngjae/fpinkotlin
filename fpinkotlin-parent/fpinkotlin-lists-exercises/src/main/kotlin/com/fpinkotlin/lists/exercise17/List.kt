@@ -108,4 +108,6 @@ fun product(list: List<Double>): Double = list.foldRight(1.0) { x -> { y -> x * 
 fun triple(list: List<Int>): List<Int> =
         List.foldRight(list, List()) { h -> { t: List<Int> -> t.cons(h * 3) } }
 
-fun doubleToString(list: List<Double>): List<String> = TODO("doubleToString")
+fun doubleToString(list: List<Double>): List<String> {
+    return List.foldRight(list, List()) { h -> { t: List<String> -> t.cons(h.toString()) } }
+}

@@ -26,7 +26,9 @@ sealed class List<out A> {
 
     fun <B> foldLeft(identity: B, f: (B) -> (A) -> B): B = foldLeft(identity, this, f)
 
-    fun length(): Int = TODO("length")
+    fun length(): Int {
+        return foldLeft(0, { b: Int -> { b + 1 } })
+    }
 
     internal object Nil: List<Nothing>() {
 
@@ -92,6 +94,13 @@ sealed class List<out A> {
     }
 }
 
-fun sum(list: List<Int>): Int = TODO("sum")
+fun sum(list: List<Int>): Int {
+    return when (list) {
+        is List.Cons<Int> -> list.foldLeft(0, { a: Int -> { b: Int -> a + b} })
+        List.Nil -> 0
+    }
+}
 
-fun product(list: List<Double>): Double = TODO("product")
+fun product(list: List<Double>): Double {
+    return list.foldLeft(1.0, { a: Double -> { b: Double -> a * b }})
+}

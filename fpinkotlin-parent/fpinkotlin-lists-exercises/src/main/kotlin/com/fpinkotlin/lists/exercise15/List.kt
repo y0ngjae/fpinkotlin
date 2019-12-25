@@ -94,7 +94,18 @@ sealed class List<out A> {
                     is Cons -> coFoldRight(f(list.head)(acc), list.tail, identity, f)
                 }
 
-        fun <A> flatten(list: List<List<A>>): List<A> = TODO("flatten")
+        fun <A> flatten(list: List<List<A>>): List<A> {
+            return when (list) {
+                is List<List<A>> -> {
+                    foldLeft(Nil as List<A>, list) { listA: List<A> ->
+                        { listA2: List<A> ->
+                            listA.concat(listA2)
+                        }
+                    }
+                }
+                Nil -> Nil
+            }
+        }
 
         operator fun <A> invoke(vararg az: A): List<A> =
                 az.foldRight(Nil) { a: A, list: List<A> -> Cons(a, list) }

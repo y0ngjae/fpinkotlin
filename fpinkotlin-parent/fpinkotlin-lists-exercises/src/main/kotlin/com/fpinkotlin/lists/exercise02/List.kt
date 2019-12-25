@@ -1,12 +1,17 @@
 package com.fpinkotlin.lists.exercise02
 
+import java.lang.IllegalStateException
+
 sealed class List<A> {
 
     abstract fun isEmpty(): Boolean
 
-    fun cons(a: A): List<A>  = Cons(a, this)
+    fun cons(a: A): List<A> = Cons(a, this)
 
-    fun setHead(a: A): List<A> = TODO("setHead")
+    fun setHead(a: A): List<A> = when (this) {
+        is Cons<A> -> Cons(a, this.tail)
+        is Nil -> throw IllegalStateException("Nil nil nil!")
+    }
 
     private object Nil: List<Nothing>() {
 
