@@ -55,7 +55,7 @@ sealed class Result<out A>: Serializable {
 
         override fun <B> flatMap(f: (Nothing) -> Result<B>): Result<B> = Empty
 
-        override fun mapFailure(message: String): Result<Nothing> = TODO("mapFailure")
+        override fun mapFailure(message: String): Result<Nothing> = Empty
 
         override fun toString(): String = "Empty"
     }
@@ -66,7 +66,8 @@ sealed class Result<out A>: Serializable {
 
         override fun <B> flatMap(f: (A) -> Result<B>): Result<B> = Failure(exception)
 
-        override fun mapFailure(message: String): Result<A> = TODO("mapFailure")
+        override fun mapFailure(message: String): Result<A> = failure(message)
+//        Failure(java.lang.RuntimeException(message, exception))
 
         override fun toString(): String = "Failure(${exception.message})"
     }
@@ -89,7 +90,7 @@ sealed class Result<out A>: Serializable {
             Failure(RuntimeException(e))
         }
 
-        override fun mapFailure(message: String): Result<A> = TODO("mapFailure")
+        override fun mapFailure(message: String): Result<A> = this
 
         override fun toString(): String = "Success($value)"
     }

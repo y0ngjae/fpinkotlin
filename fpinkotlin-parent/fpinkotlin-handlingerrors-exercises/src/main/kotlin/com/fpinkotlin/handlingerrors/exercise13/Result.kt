@@ -156,6 +156,16 @@ sealed class Result<out A>: Serializable {
 
 fun <A, B> lift(f: (A) -> B): (Result<A>) -> Result<B> = { it.map(f) }
 
-fun <A, B, C> lift2(f: (A) -> (B) -> C): (Result<A>) -> (Result<B>) -> Result<C> = TODO("lift2")
+fun <A, B, C> lift2(f: (A) -> (B) -> C): (Result<A>) -> (Result<B>) -> Result<C> = { a ->
+    { b ->
+        a.flatMap { it1 -> b.flatMap { it2 -> Result(f(it1)(it2)) } }
+    }
+}
 
-fun <A, B, C, D> lift3(f: (A) -> (B) -> (C) -> D): (Result<A>) -> (Result<B>) -> (Result<C>) -> Result<D> = TODO("lift3")
+fun <A, B, C, D> lift3(f: (A) -> (B) -> (C) -> D): (Result<A>) -> (Result<B>) -> (Result<C>) -> Result<D> = { a ->
+    { b ->
+        { c ->
+            a.flatMap { it1 -> b.flatMap { it2 -> c.flatMap { it3 -> Result(f(it1)(it2)(it3)) } } }
+        }
+    }
+}

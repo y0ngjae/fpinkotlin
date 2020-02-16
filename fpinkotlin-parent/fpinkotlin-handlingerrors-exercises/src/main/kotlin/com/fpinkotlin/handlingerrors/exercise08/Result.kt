@@ -109,10 +109,10 @@ sealed class Result<out A>: Serializable {
 
         fun <A> failure(exception: Exception): Result<A> = Failure(IllegalStateException(exception))
 
-        operator fun <A> invoke(a: A? = null, message: String): Result<A> = TODO("invoke")
+        operator fun <A> invoke(a: A? = null, message: String): Result<A> = if (a != null) Result(a) else failure(message)
 
-        operator fun <A> invoke(a: A? = null, p: (A) -> Boolean): Result<A> = TODO("invoke")
+        operator fun <A> invoke(a: A? = null, p: (A) -> Boolean): Result<A> = if (a != null) Result(a).filter(p) else Result.invoke()
 
-        operator fun <A> invoke(a: A? = null, message: String, p: (A) -> Boolean): Result<A> = TODO("invoke")
+        operator fun <A> invoke(a: A? = null, message: String, p: (A) -> Boolean): Result<A> = if (a != null) Result(a).filter(message, p) else Result.invoke()
     }
 }
