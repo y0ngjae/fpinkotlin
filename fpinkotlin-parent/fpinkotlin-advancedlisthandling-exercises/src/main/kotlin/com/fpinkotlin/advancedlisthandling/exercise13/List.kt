@@ -17,7 +17,22 @@ sealed class List<out A> {
     abstract fun <B> foldLeft(identity: B, zero: B,
                               f: (B) -> (A) -> B): B
 
-    fun getAt(index: Int): Result<A> = TODO("getAt")
+    // foldLeft는 아니지만 그냥 짜본거
+    fun getAt(index: Int): Result<A> {
+        tailrec fun getAtInternal(list: List<A>, idx: Int): Result<A> {
+            return if (idx == index) {
+                list.headSafe()
+            }  else {
+                getAtInternal(list.drop(1), idx + 1)
+            }
+        }
+
+        if (this.length <= index || index < 0) {
+            return Result.failure("Index out of bound")
+        }
+
+        return getAtInternal(this, 0)
+    }
 
     fun <A1, A2> unzip(f: (A) -> Pair<A1, A2>): Pair<List<A1>, List<A2>> =
             this.coFoldRight(Pair(Nil, Nil)) { a ->

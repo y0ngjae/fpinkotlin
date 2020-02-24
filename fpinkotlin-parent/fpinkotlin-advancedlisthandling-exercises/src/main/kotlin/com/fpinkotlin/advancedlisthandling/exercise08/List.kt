@@ -172,4 +172,14 @@ fun <A> sequence(list: List<Result<A>>): Result<List<A>> =
 
 fun <A, B, C> zipWith(list1: List<A>,
                       list2: List<B>,
-                      f: (A) -> (B) -> C): List<C> = TODO("zipWith")
+                      f: (A) -> (B) -> C): List<C> {
+
+    var newList1 = list1.reverse()
+    var newList2 = list2
+
+    return traverse(newList1.map(f)) {
+        val head = newList2.headSafe()
+        newList2 = newList2.drop(1)
+        head.map(it)
+    }.getOrElse(List()).reverse()
+}

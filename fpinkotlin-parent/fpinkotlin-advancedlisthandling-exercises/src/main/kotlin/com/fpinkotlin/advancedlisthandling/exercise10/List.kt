@@ -193,4 +193,12 @@ fun <A, B, C> product(list1: List<A>,
                       f: (A) -> (B) -> C): List<C> =
         list1.flatMap { a -> list2.map { b -> f(a)(b) } }
 
-fun <A, B> unzip(list: List<Pair<A, B>>): Pair<List<A>, List<B>> = TODO("unzip")
+fun <A, B> unzip(list: List<Pair<A, B>>): Pair<List<A>, List<B>> {
+    return list.foldRight(Pair(List<A>(), List<B>())) { pAb ->
+        { pAlBl ->
+            val al = List.cons(pAb.first, pAlBl.first)
+            val bl = List.cons(pAb.second, pAlBl.second)
+            Pair(al, bl)
+        }
+    }
+}
